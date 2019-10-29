@@ -1,0 +1,141 @@
+<!-- <main> -->
+<!-- <div class="booth">
+        <video id="video" width="600" height="450" autoplay></video><canvas id="canvas" width="600" height="450"></canvas>
+        <button class="button-pic" id="snap">Snap Photo</button>
+        
+        <form method="post" action="/users/studio">
+            <input name="imgsrc" id="imgsrc" type="hidden">
+            <button class="button-pic" type="submit" name="submit" id="submitphoto">Submit Photo</button>
+        </form>
+    </div>
+
+</br>
+<div class="flex-container">
+    <img class="items" style="position: relative; width: 50px; height: 50px" id="sticker1" src="/stickers/1.png">
+    <img class="items" style="position: relative; width: 50px; height: 50px" id="sticker2" src="/stickers/2.png">
+    <img class="items" style="position: relative; width: 50px; height: 50px" id="sticker3" src="/stickers/3.png">
+    <img class="items" style="position: relative; width: 50px; height: 50px" id="sticker4" src="/stickers/4.png">
+    <img class="items" style="position: relative; width: 50px; height: 50px" id="sticker5" src="/stickers/5.png">
+</div> -->
+<!-- </main> -->
+<div class="card card-body">
+    <h1 class="text-center mt-4">Camera</h1>
+
+    <div class="text-center mb-3">
+
+        <a href="/users/camera" class="btn btn-primary">Camera</a>
+        <a href="/users/profile" class="btn btn-secondary">Profile</a>
+        <a href="/users/dashboard" class="btn btn-secondary">Home</a>
+        <a href="/users/logout" class="btn btn-secondary">Logout</a>
+
+    </div>
+</div>
+
+    <div class="popup">
+        <div class="booth" style="margin-left: auto; margin-right: auto; display: block; max-width: 37.8%; border:10px solid darkgray;">
+            <video id="video" width="400" height="300"></video>
+            <a style="position: relative;" id="capture" class="btn
+                btn-primary btn-block">Capture</a>
+            <canvas style="position: relative;" id="canvas" width="400"
+                height="300"></canvas>
+            <a style="position: relative;" id="green-button" class="btn
+                btn-secondary btn-block">Customize!</a>
+            <form method="post" action="/users/camera" enctype="multipart/form-data">
+                <input type='file' id="insert"
+                class="btn btn-primary btn-block"name="insert">
+                <input name="imgsrc" id="imgsrc" type="hidden">
+                <button class="btn-primary btn-block" type="submit" name="submit"
+                    id="submitphoto">Submit Photo</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+
+        (function () {
+            var video = document.getElementById('video'),
+                canvas = document.getElementById('canvas'),
+                context = canvas.getContext('2d'),
+                vendorUrl = window.URL || window.webkitURL;
+
+            navigator.getMedia = navigator.webkitGetUserMedia;
+
+            navigator.getMedia({
+                video: true,
+                audio: false
+            }, function (stream) {
+                video.srcObject = stream;
+                // video.src = vendorUrl.createObjectURL(stream);
+                video.play();
+            }, function (error) {
+                //An error occured
+                //error.code
+            });
+
+            document.getElementById('capture').addEventListener('click', function () {
+                context.drawImage(video, 0, 0, 400, 300);
+                let dataURL = canvas.toDataURL('image/png');
+                document.getElementById("imgsrc").value = dataURL;
+            });
+
+        })();
+
+        document.getElementById('yellow').onchange = function (e) {
+            // console.log("image");
+            var img = new Image();
+            // img.src = URL.createObjectURL(img);
+            img.src = HTMLMediaElement.srcObject(stream);
+            console.log(URL.createObjectURL(img));
+            img.onload = draw(img);
+            console.log(img);
+        };
+
+        function draw(img) {
+            var canvas = document.getElementById('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            var ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0);
+        }
+
+
+        var xhttp = new XMLHttpRequest();
+        var capt = document.querySelector('#blue-button');
+        var img;
+        capt.onclick = () => {
+            if (document.querySelector('canvas').getContext('2d')) {
+                img = document.querySelector('canvas').toDataURL('image/png');
+
+                xhttp.open("POST", "../profile/profile.php");
+                xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhttp.send('name=' + img);
+
+            }
+        }
+    </script>
+    <script>
+            window.onload = function () {
+            var btn = document.getElementById('green-button');
+
+            var canvas = document.getElementById('canvas');
+            btn.addEventListener('click', function () {
+
+                var edits = ['../public/stickers/beard-no-background-18.png',
+                    '../public/stickers/beard-transparent-background-photoshop-psd_112283.png',
+                    '../public/stickers/download.jpeg',
+                    '../public/stickers/hipster-clipart-transparent-17.png',
+                    '../public/stickers/men-hair-pngs-for-images-27.png',
+                    '../public/stickers/woman-hair-png-2.png'];
+                img_src = edits[(Math.random() * edits.length) | 0]
+
+                var newImg = document.createElement('img');
+                newImg.src = img_src;
+                newImg.width = '50';
+                newImg.height = '50';
+
+                document.getElementById('canvas').appendChild(newImg);
+                var ctx = canvas.getContext("2d");
+                ctx.drawImage(newImg, 0, 0, 400, 300);
+            });
+        }
+    </script>

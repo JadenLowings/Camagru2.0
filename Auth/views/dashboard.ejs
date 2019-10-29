@@ -1,0 +1,56 @@
+<div class="card card-body">
+    <h1 class="text-center mt-4">Home Page</h1>
+
+    <div class="text-center mb-3">
+        <a href="/users/camera" class="btn btn-secondary">Camera</a>
+        <a href="/users/profile" class="btn btn-secondary">Profile</a>
+        <a href="/users/dashboard" class="btn btn-primary">Home</a>
+        <a href="/users/logout" class="btn btn-secondary">Logout</a>
+        <a href="/users/accountimg" class="btn btn-secondary">My Pictures</a>
+    </div>
+
+    <p class="text-center mb-3">Welcome <%= name %></p>
+    </div>
+
+    <div class="images">
+        <% if (images.length> 0) { %> 
+            <% for (let image of images.reverse()) {%>
+                    <div style="margin-left: auto; margin-right: auto;display: block; max-width: 37.8%; border:10px solid darkgray;">
+                        
+                        <% var imageURL= '/users/img?id=' + image._id%>
+                        
+                        <a href="<%= imageURL %>">
+                            <img style= "height: 300px; width: 400px;" src="<%=image.image %>"alt=""/>
+                        </a>
+
+                                <form action="/users/likeme" method="POST">
+                                    <input type="hidden" name="imageId" value="<%=image._id %>"/>
+                                    <button class="btn-primary btn-block"
+                                        type="submit">Like</button>
+                                </form>
+                                <p>Likes: <%= image.likes %></p>
+                            </div>
+                            &nbsp;
+                <%}%>
+        <%}%>
+    </div>
+    <div>
+            <ul class="pagination pagination-lg" style="margin-left: auto; margin-right: auto;display: block; max-width: 37.8%;">
+                <div class="center">
+                    <div class="pagination">
+                        <% let num = images.length;
+                        let counter = 1;
+                        let toRound = num / 5;
+                        let pages = Math.ceil(toRound);
+                        if (num % 5 > 0) {
+                            pages = pages + 1;
+                        }
+                        while(counter <= pages) { %>
+                        <li class="page-item" style="position: relative; left: 50%;">
+                            <a href="/gallery/<%= counter %>" class="<% if (currentPage === counter) { %>active<% } %>"
+                                </a> </li> <%=counter %></a>
+                            <% counter = counter+ 1; } %>
+                    </div>
+                </div>
+            </ul>
+        </div>

@@ -1,0 +1,39 @@
+<div class="card card-body">
+    <h1 class="text-center mt-4">Home Page</h1>
+
+    <div class="text-center mb-3">
+
+        <a href="/users/dashboard" class="btn btn-primary">Home</a>
+        <a href="/users/accountimg" class="btn btn-secondary">My Pictures</a>
+    </div>
+
+</div>
+
+<div class="images">
+    <% if (images.length> 0) { %>
+
+        <div style="margin-left: auto; margin-right: auto;display: block; max-width: 37.8%; border:10px solid darkgray;">
+            <% for (let image of images.reverse()) {%>
+                <img style= "height: 300px; width: 400px;" src="<%= image.image %>" alt="">
+                <form action="/users/likeme" method="POST">
+                    <input type="hidden" name="imageId" value="<%= image._id %>">
+                    <button class="btn-primary" type="submit">Like</button>
+                </form>
+                <p>Likes: <%= image.likes %></p>
+                <textarea style="resize:none; font-size: 15px;" rows="5" cols="47" disabled>
+                        <% for (let comment of comments.reverse()) { %>
+                    <%= comment.userID.name %>:
+                    <%= comment.comment %>
+                    <% } %>
+                </textarea>
+                <form action="/users/comment" method="POST">
+                    <textarea style="resize:none;" rows="2" cols="47"
+                        name="comment" required placeholder="Leave a comment" ;></textarea>
+                    <button type="submit" class="btn btn-primary btn-block"
+                        name="submitcomment">Submit Comment</button>
+                    <input type="hidden" name="imageId" value="<%= image._id %>">
+                </form>
+                <%}%>
+                    <%}%>
+                </div>
+                    </div>

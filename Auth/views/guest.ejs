@@ -1,0 +1,31 @@
+<div class="card card-body">
+    <h1 class="text-center mt-4">Home Page</h1>
+
+    <div class="text-center mb-3" style="margin-left: auto; margin-right: auto; display: block; max-width: 36;">
+
+        <a href="/users/login" class="btn btn-primary">Log in</a>
+    
+    </div>
+
+    <p class="text-center mb-3">Welcome Guest</p>
+</div>
+
+<div class="images">
+        <% if (images.length > 0) { %>
+            <% for (let image of images.reverse()) {%>
+
+                    <div style="margin-left: auto; margin-right: auto; display: block; max-width: 37.8%; border:10px solid darkgray;">
+                        <% var imageURL = '/users/img?id=' + image._id%>
+
+                        <a href="<%= imageURL %>"><img src="<%= image.image %>" alt=""></a>
+                        <form action="/users/likeme" method="POST">
+                            <input type="hidden" name="imageId" value="<%= image._id %>">
+                            <button class="btn-primary btn-block" type="submit">Like</button>
+                        </form>
+                        <p>Likes: <%= image.likes %></p>
+                    </div>
+                    &nbsp;
+            <%}%>
+
+        <%}%>   
+</div>
